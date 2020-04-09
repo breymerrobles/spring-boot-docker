@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+  spring-boot-example-console:
+   build: 
+      context: .
+      dockerfile: Dockerfile
+   image: breymer/spring-boot-example-console:0.0.2.RELEASE
+#   ports:
+#      - "3000:5000"
+   restart: always
+   
+   depends_on:
+        - activemq
+   environment:
+       # spring.profiles.active:"docker"     
+        SPRING_PROFILES_ACTIVE: docker
+#   links:
+#       - activemq     
+   networks:
+      - spring-boot-example-console-compose-network
+  activemq:
+     image: webcenter/activemq:latest
+     restart: always
+     container_name: activemq
+     environment: 
+        ACTIVEMQ_CONFIG_NAME: activemq
+     ports:
+      # mqtt
+      - "1883:1883"
+      # amqp
+      - "5672:5672"
+      # ui
+      - "8161:8161"
+      # stomp
+      - "61613:61613"
+      # ws
+      - "61614:61614"
+      # jms
+      - "61616:61616"
+     networks:
+      spring-boot-example-console-compose-network:
+     volumes: ["./logs/activemq:/data/activemq/","./logs/activemq:/var/log/activemq/"]
+     environment:
+      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "true"
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin1
+
+# Networks to be created to facilitate communication between containers
+networks:
+  spring-boot-example-console-compose-network:

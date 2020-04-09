@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  spring-boot-example-mongo:
+   build: 
+      context: .
+      dockerfile: Dockerfile
+   image: breymer/spring-boot-example-mongo:0.0.2.RELEASE
+   ports:
+      - "9191:9191"
+   restart: always
+   links:
+      - mongo-database 
+   depends_on:
+      - mongo-database
+   environment:
+        SPRING_PROFILES_ACTIVE: docker    
+   networks:
+      - spring-boot-example-mongo-compose-network
+  mongo-database:
+    image: mongo
+    container_name: mongo-database
+    restart: always
+    volumes:
+      - $HOME/data/springboot-mongo-data:/data/db
+      - $HOME/data/springboot-mongo-bkp:/data/bkp
+   
+    ports:
+      - 27018:27017
+    networks:
+      - spring-boot-example-mongo-compose-network
+    
+
+# Networks to be created to facilitate communication between containers
+networks:
+  spring-boot-example-mongo-compose-network:
