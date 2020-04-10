@@ -1,5 +1,5 @@
 ## Projects with spring boot and running with docker
-Spring Boot with Docker and Docker compose example
+Spring Boot with Docker and Docker compose examples feel free to clone or fork or download
 ## Tools used to build the projects
    #### Eclipse - Link https://www.eclipse.org/downloads/download.php?file=/oomph/epp/2020-03/R/eclipse-inst-win64.exe
    ##### Gradle  - Link https://gradle.org/install/
